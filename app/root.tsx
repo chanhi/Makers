@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <main className="px-20">{children}</main>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <div className="py-28">
-      <Navigation 
+      <Navigation
         isLoggedIn={false}
         hasNotifications={false}
         hasMessages={false}
