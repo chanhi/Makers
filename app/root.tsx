@@ -10,6 +10,7 @@ import Navigation from "./common/components/navigation";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Settings } from "luxon";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,6 +26,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  Settings.defaultZone = "Asia/Seoul";
+  Settings.defaultLocale = "ko";
   return (
     <html lang="en">
       <head>
