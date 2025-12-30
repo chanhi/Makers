@@ -11,7 +11,7 @@ export function loader({ params }: Route.LoaderArgs) {
       url = `/products/leaderboards/daily/${today.year}/${today.month}/${today.day}`;
       break;
     case "weekly":
-      url = `/products/leaderboards/weekly/${today.year}/${today.weekNumber}`;
+      url = `/products/leaderboards/weekly/${today.weekYear}/${today.weekNumber}`;
       break;
     case "monthly":
       url = `/products/leaderboards/monthly/${today.toFormat("yyyy/MM")}`;
