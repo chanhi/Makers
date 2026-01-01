@@ -5,6 +5,7 @@ import { Form } from "react-router";
 import { Input } from "~/common/components/ui/input";
 import { Button } from "~/common/components/ui/button";
 import { ProductCard } from "../components/product-card";
+import ProductPagination from "~/common/components/product-pagination";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -57,6 +58,7 @@ export default function SearchPage() {
           />
         ))}
       </div>
+      <ProductPagination totalPages={10} />
     </div>
   );
 }
