@@ -1,5 +1,9 @@
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/product-reviews-page";
+import { Button } from "~/common/components/ui/button";
+import { ReviewCard } from "../components/review-card";
+import { Dialog, DialogTrigger } from "~/common/components/ui/dialog";
+import CreateReviewDialog from "../components/create-review-dialog";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -9,22 +13,30 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export default function ProductReviewsPage() {
-  const { productId } = useParams();
-
   return (
-    <div className="space-y-6 max-w-screen-md mx-auto">
-      <h1 className="text-2xl font-bold">Reviews for {productId}</h1>
-      <div className="space-y-4">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="p-4 border rounded">
-            <div className="font-semibold">User {i + 1}</div>
-            <div className="text-sm text-muted-foreground">Great product!</div>
-          </div>
-        ))}
+    <Dialog>
+      <div className="space-y-10 max-w-xl">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">10 Reviews</h2>
+          <DialogTrigger asChild>
+            <Button variant={"secondary"}>Write a review</Button>
+          </DialogTrigger>
+        </div>
+        <div className="space-y-20">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <ReviewCard
+              key={i}
+              username="John Doe"
+              handle="@username"
+              avatarUrl="https://github.com/facebook.png"
+              rating={5}
+              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."
+              postedAt="10 days ago"
+            />
+          ))}
+        </div>
       </div>
-      <Link to={`/products/${productId}/reviews/new`} className="text-primary">
-        Write a review
-      </Link>
-    </div>
+      <CreateReviewDialog />
+    </Dialog>
   );
 }

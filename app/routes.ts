@@ -46,9 +46,12 @@ export default [
         route("/overview", "features/products/pages/product-overview-page.tsx"),
         ...prefix("reviews", [
           index("features/products/pages/product-reviews-page.tsx"),
-          route("/new", "features/products/pages/new-product-review-page.tsx"),
         ]),
       ]),
     ]),
+  ]),
+  ...prefix("/ideas", [
+    index("features/ideas/pages/ideas-page.tsx"),
+    route("/:ideaId", "features/ideas/pages/idea-page.tsx"),
   ]),
 ] satisfies RouteConfig;
