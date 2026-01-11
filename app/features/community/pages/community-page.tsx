@@ -22,7 +22,7 @@ export default function CommunityPage() {
   const sorting = searchParams.get("sorting") || "newst";
   const period = searchParams.get("period") || "all";
   return (
-    <div>
+    <div className="space-y-20">
       <Hero
         title="Community"
         subtitle="Ask questions, share ideas, and connect with other developers"
@@ -88,7 +88,7 @@ export default function CommunityPage() {
               </Form>
             </div>
             <Button asChild>
-              <Link to={`/community/new`}>Create Discussion</Link>
+              <Link to={`/community/submit`}>Create Discussion</Link>
             </Button>
           </div>
           <div className="space-y-5">
