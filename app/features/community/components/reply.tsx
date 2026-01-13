@@ -35,7 +35,7 @@ export function Reply({
         </Avatar>
         <div className="flex flex-col gap-2 items-start">
           <div className="flex gap-2 items-center">
-            <Link to={`/users/@${username}`}>
+            <Link to={`/users/${username}`}>
               <h4 className="font-medium">{username}</h4>
             </Link>
             <DotIcon className="size-5" />
