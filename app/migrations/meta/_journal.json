@@ -15,6 +15,20 @@
       "when": 1768820878046,
       "tag": "0001_oval_kabuki",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768994372353,
+      "tag": "0002_loose_toxin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768994852462,
+      "tag": "0003_easy_tattoo",
+      "breakpoints": true
     }
   ]
 }
