@@ -5,19 +5,23 @@ import {
   CardHeader,
   CardTitle,
 } from "~/common/components/ui/card";
-import { Avatar, AvatarImage } from "~/common/components/ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "~/common/components/ui/avatar";
 import { Button } from "~/common/components/ui/button";
 import { ChevronUpIcon, DotIcon } from "lucide-react";
 import { cn } from "~/lib/utils";
+import { DateTime } from "luxon";
 
 interface PostCardProps {
-  id: string;
+  id: number;
   title: string;
   author: string;
-  authorAvatarUrl: string;
+  authorAvatarUrl: string | null;
   category: string;
-  postedAt: string;
+  postedAt: Date;
   expanded?: boolean;
   votesCount?: number;
 }
@@ -37,10 +41,10 @@ export function PostCard({
       <Card
         className={cn(
           "bg-transparent hover:bg-card/50 transition-colors",
-          expanded ? "flex flex-row items-center justify-between" : ""
+          expanded ? "flex flex-row items-center justify-between" : "",
         )}
       >
-        <CardHeader className="flex flex-row items-center gap-2">
+        <CardHeader className="flex flex-row items-center gap-2 w-full">
           <Avatar className="size-14">
             <AvatarFallback>{author[0]}</AvatarFallback>
             {authorAvatarUrl && <AvatarImage src={authorAvatarUrl} />}
@@ -52,7 +56,7 @@ export function PostCard({
                 {author} on {category}
               </span>
               <DotIcon className="w-4 h-4" />
-              <span>{postedAt}</span>
+              <span>{DateTime.fromJSDate(postedAt).toRelative()}</span>
             </div>
           </div>
         </CardHeader>
