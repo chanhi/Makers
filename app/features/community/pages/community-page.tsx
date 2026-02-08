@@ -19,10 +19,14 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export const loader = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
-  const topics = await getTopics();
-  const posts = await getPosts();
+  const [topics, posts] = await Promise.all([getTopics(), getPosts()]);
   return { topics, posts };
+};
+
+export const clientLoader = async ({
+  serverLoader,
+}: Route.ClientLoaderArgs) => {
+  //track analytics
 };
 
 export default function CommunityPage({ loaderData }: Route.ComponentProps) {
@@ -120,15 +124,14 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
             Topics
           </span>
           <div className="flex flex-col gap-2 items-start">
-            {[
-              "AI Tools",
-              "Design Tools",
-              "Dev Tools",
-              "Note Taking Apps",
-              "Productivity Tools",
-            ].map((category) => (
-              <Button asChild variant={"link"} key={category} className="pl-0">
-                <Link to={`/community?topic=${category}`}>{category}</Link>
+            {loaderData.topics.map((topic) => (
+              <Button
+                asChild
+                variant={"link"}
+                key={topic.slug}
+                className="pl-0"
+              >
+                <Link to={`/community?topic=${topic.slug}`}>{topic.name}</Link>
               </Button>
             ))}
           </div>
