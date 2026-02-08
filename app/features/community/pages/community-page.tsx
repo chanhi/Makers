@@ -1,13 +1,13 @@
-import { Button } from "~/common/components/ui/button";
-import type { Route } from "./+types/community-page";
 import { Hero } from "~/common/components/hero";
+import type { Route } from "./+types/community-page";
+import { Form, Link, useSearchParams } from "react-router";
+import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "~/common/components/ui/dropdown-menu";
-import { Form, Link, useSearchParams } from "react-router";
 import { ChevronDownIcon } from "lucide-react";
 import { PERIOD_OPTIONS, SORT_OPTIONS } from "../constants";
 import { Input } from "~/common/components/ui/input";
@@ -31,7 +31,7 @@ export const clientLoader = async ({
 
 export default function CommunityPage({ loaderData }: Route.ComponentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const sorting = searchParams.get("sorting") || "newst";
+  const sorting = searchParams.get("sorting") || "newest";
   const period = searchParams.get("period") || "all";
   return (
     <div className="space-y-20">
