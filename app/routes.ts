@@ -15,23 +15,23 @@ export default [
       index("features/products/pages/leaderboard-page.tsx"),
       route(
         "/yearly/:year",
-        "features/products/pages/yearly-leaderboard-page.tsx"
+        "features/products/pages/yearly-leaderboard-page.tsx",
       ),
       route(
         "/monthly/:year/:month",
-        "features/products/pages/monthly-leaderboard-page.tsx"
+        "features/products/pages/monthly-leaderboard-page.tsx",
       ),
       route(
         "/daily/:year/:month/:day",
-        "features/products/pages/daily-leaderboard-page.tsx"
+        "features/products/pages/daily-leaderboard-page.tsx",
       ),
       route(
         "/weekly/:year/:week",
-        "features/products/pages/weekly-leaderboard-page.tsx"
+        "features/products/pages/weekly-leaderboard-page.tsx",
       ),
       route(
         "/:period",
-        "features/products/pages/leaderboards-redirection-page.tsx"
+        "features/products/pages/leaderboards-redirection-page.tsx",
       ),
     ]),
     ...prefix("categories", [
@@ -97,7 +97,7 @@ export default [
         route("/ideas", "features/users/pages/dashboard-ideas-page.tsx"),
         route(
           "/products/:productId",
-          "features/users/pages/dashboard-product-page.tsx"
+          "features/users/pages/dashboard-product-page.tsx",
         ),
       ]),
     ]),

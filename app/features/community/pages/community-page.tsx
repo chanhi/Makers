@@ -26,7 +26,9 @@ export const loader = async () => {
 export const clientLoader = async ({
   serverLoader,
 }: Route.ClientLoaderArgs) => {
+  const data = await serverLoader();
   //track analytics
+  return data;
 };
 
 export default function CommunityPage({ loaderData }: Route.ComponentProps) {
