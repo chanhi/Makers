@@ -1,6 +1,6 @@
 import { Hero } from "~/common/components/hero";
 import type { Route } from "./+types/community-page";
-import { Form, Link, useSearchParams } from "react-router";
+import { data, Form, Link, useSearchParams } from "react-router";
 import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
@@ -13,22 +13,47 @@ import { PERIOD_OPTIONS, SORT_OPTIONS } from "../constants";
 import { Input } from "~/common/components/ui/input";
 import { PostCard } from "../components/post-card";
 import { getPosts, getTopics } from "../queries";
+import z from "zod";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Community | wemake" }];
 };
 
-export const loader = async () => {
-  const [topics, posts] = await Promise.all([getTopics(), getPosts()]);
-  return { topics, posts };
-};
+const searchParamsSchema = z.object({
+  sorting: z.enum(["newest", "popular"]).optional().default("newest"),
+  period: z
+    .enum(["all", "today", "week", "month", "year"])
+    .optional()
+    .default("all"),
+  topic: z.string().optional(),
+  keyword: z.string().optional(),
+});
 
-export const clientLoader = async ({
-  serverLoader,
-}: Route.ClientLoaderArgs) => {
-  const data = await serverLoader();
-  //track analytics
-  return data;
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const url = new URL(request.url);
+  const { success, data: parsedData } = searchParamsSchema.safeParse(
+    Object.fromEntries(url.searchParams),
+  );
+  if (!success) {
+    throw data(
+      {
+        error_code: "invalid_search_params",
+        message: "Invalid search parameters",
+      },
+      { status: 400 },
+    );
+  }
+  const [topics, posts] = await Promise.all([
+    getTopics(),
+    getPosts({
+      limit: 20,
+      sorting: parsedData.sorting,
+      period: parsedData.period,
+      keyword: parsedData.keyword,
+      topic: parsedData.topic,
+    }),
+  ]);
+  return { topics, posts };
 };
 
 export default function CommunityPage({ loaderData }: Route.ComponentProps) {
@@ -96,7 +121,7 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
               <Form className="w-2/3">
                 <Input
                   type="text"
-                  name="search"
+                  name="keyword"
                   placeholder="Search for discussions"
                 />
               </Form>
