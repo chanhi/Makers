@@ -11,7 +11,7 @@ export const getGptIdeas = async ({ limit }: { limit: number }) => {
   return data;
 };
 
-export const getGptIdea = async (ideaId: string) => {
+export const getGptIdea = async (ideaId: number) => {
   const { data, error } = await client
     .from("gpt_ideas_view")
     .select("*")
