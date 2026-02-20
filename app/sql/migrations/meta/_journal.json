@@ -64,6 +64,20 @@
       "when": 1770808716980,
       "tag": "0008_quick_ares",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1771587917847,
+      "tag": "0009_curvy_lady_bullseye",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1771588066412,
+      "tag": "0010_uneven_jack_murdock",
+      "breakpoints": true
     }
   ]
 }
