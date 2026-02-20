@@ -1,26 +1,28 @@
 import { Hero } from "~/common/components/hero";
 import type { Route } from "./+types/teams-page";
 import { TeamCard } from "../components/team-card";
+import { getTeams } from "../queries";
 
 export const meta: Route.MetaFunction = () => [{ title: "Teams | wemake" }];
 
-export default function TeamsPage() {
+export const loader = async () => {
+  const teams = await getTeams({ limit: 8 });
+  return { teams };
+};
+
+export default function TeamsPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="space-y-20">
       <Hero title="Teams" subtitle="Find a team looking for a new member." />
       <div className="grid grid-cols-4 gap-4">
-        {Array.from({ length: 8 }).map((_, index) => (
+        {loaderData.teams.map((team) => (
           <TeamCard
-            key={`teamId-${index}`}
-            id={`teamId-${index}`}
-            leaderUsername="lynn"
-            leaderAvatarUrl="https://github.com/inthetiger.png"
-            positions={[
-              "React Developer",
-              "Backend Developer",
-              "Product Manager",
-            ]}
-            projectDescription="a new social media platform"
+            key={team.team_id}
+            id={team.team_id}
+            leaderUsername={team.team_leader.username}
+            leaderAvatarUrl={team.team_leader.avatar}
+            positions={team.roles.split(",")}
+            projectDescription={team.product_description}
           />
         ))}
       </div>
