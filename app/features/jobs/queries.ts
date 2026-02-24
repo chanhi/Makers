@@ -44,3 +44,13 @@ export const getJobs = async ({
   }
   return data;
 };
+
+export const getJobById = async (jobId: number) => {
+  const { data, error } = await client
+    .from("jobs")
+    .select("*")
+    .eq("job_id", jobId)
+    .single();
+  if (error) throw error;
+  return data;
+};
