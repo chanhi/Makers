@@ -5,6 +5,7 @@ import { ReviewCard } from "../components/review-card";
 import { Dialog, DialogTrigger } from "~/common/components/ui/dialog";
 import CreateReviewDialog from "../components/create-review-dialog";
 import { getReviews } from "../queries";
+import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -13,8 +14,11 @@ export const meta: Route.MetaFunction = () => {
   ];
 };
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
-  const reviews = await getReviews(Number(params.productId));
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
+  const { client, headers } = makeSSRClient(request);
+  const reviews = await getReviews(client, {
+    productId: Number(params.productId),
+  });
   return { reviews };
 };
 
@@ -37,9 +41,9 @@ export default function ProductReviewsPage({
           {loaderData.reviews.map((review) => (
             <ReviewCard
               key={review.review_id}
-              username={review.user.name}
-              handle={review.user.username}
-              avatarUrl={review.user.avatar}
+              username={review.user!.name}
+              handle={review.user!.username}
+              avatarUrl={review.user!.avatar}
               rating={review.rating}
               content={review.review}
               postedAt={review.created_at}

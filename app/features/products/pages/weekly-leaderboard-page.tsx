@@ -7,6 +7,7 @@ import { ProductCard } from "../components/product-card";
 import ProductPagination from "~/common/components/product-pagination";
 import { Button } from "~/common/components/ui/button";
 import { getProductPagesByDateRange, getProductsByDateRange } from "../queries";
+import { makeSSRClient } from "~/supa-client";
 
 const paramsSchema = z.object({
   year: z.coerce.number(),
@@ -62,13 +63,14 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     );
   }
   const url = new URL(request.url);
-  const products = await getProductsByDateRange({
+  const { client, headers } = makeSSRClient(request);
+  const products = await getProductsByDateRange(client, {
     startDate: date.startOf("week"),
     endDate: date.endOf("week"),
     limit: 15,
     page: Number(url.searchParams.get("page") || 1),
   });
-  const totalPages = await getProductPagesByDateRange({
+  const totalPages = await getProductPagesByDateRange(client, {
     startDate: date.startOf("week"),
     endDate: date.endOf("week"),
   });

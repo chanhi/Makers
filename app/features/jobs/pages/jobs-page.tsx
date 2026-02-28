@@ -7,6 +7,7 @@ import { Button } from "~/common/components/ui/button";
 import { cn } from "~/lib/utils";
 import z from "zod";
 import { getJobs } from "../queries";
+import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -35,7 +36,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
       { status: 400 },
     );
   }
-  const jobs = await getJobs({
+  const { client, headers } = makeSSRClient(request);
+  const jobs = await getJobs(client, {
     limit: 40,
     location: parsedData.location,
     type: parsedData.type,

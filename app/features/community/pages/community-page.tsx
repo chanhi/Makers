@@ -14,6 +14,7 @@ import { Input } from "~/common/components/ui/input";
 import { PostCard } from "../components/post-card";
 import { getPosts, getTopics } from "../queries";
 import z from "zod";
+import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Community | wemake" }];
@@ -43,9 +44,10 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
       { status: 400 },
     );
   }
+  const { client, headers } = makeSSRClient(request);
   const [topics, posts] = await Promise.all([
-    getTopics(),
-    getPosts({
+    getTopics(client),
+    getPosts(client, {
       limit: 20,
       sorting: parsedData.sorting,
       period: parsedData.period,
