@@ -15,6 +15,7 @@ import "./app.css";
 import { Settings } from "luxon";
 import { cn } from "./lib/utils";
 import { makeSSRClient } from "./supa-client";
+import { getUserById } from "./features/users/queries";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -54,7 +55,11 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const {
     data: { user },
   } = await client.auth.getUser();
-  return { user };
+  if (user) {
+    const profile = await getUserById(client, { id: user.id });
+    return { user, profile };
+  }
+  return { user: null, profile: null };
 };
 
 export default function App({ loaderData }: Route.ComponentProps) {
@@ -74,6 +79,9 @@ export default function App({ loaderData }: Route.ComponentProps) {
           isLoggedIn={isLoggedIn}
           hasNotifications={false}
           hasMessages={false}
+          username={loaderData.profile?.username}
+          avatar={loaderData.profile?.avatar}
+          name={loaderData.profile?.name}
         />
       )}
       <Outlet />
