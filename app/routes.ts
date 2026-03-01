@@ -5,6 +5,7 @@ import {
   prefix,
   route,
 } from "@react-router/dev/routes";
+import { ro } from "date-fns/locale";
 
 export default [
   index("common/pages/home-page.tsx"),
@@ -79,6 +80,7 @@ export default [
         route("/complete", "features/auth/pages/social-complete-page.tsx"),
       ]),
     ]),
+    route("/logout", "features/auth/pages/logout-page.tsx"),
   ]),
   //Community Routes
   ...prefix("/community", [
