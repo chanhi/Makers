@@ -21,8 +21,8 @@ import { getPostById, getReplies } from "../queries";
 import { DateTime } from "luxon";
 import { makeSSRClient } from "~/supa-client";
 
-export const meta: Route.MetaFunction = ({ params }) => {
-  return [{ title: `${params.postId} | wemake` }];
+export const meta: Route.MetaFunction = ({ data }) => {
+  return [{ title: `${data.post.title} on ${data.post.topic_name} | wemake` }];
 };
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
@@ -72,7 +72,9 @@ export default function PostPage({ loaderData }: Route.ComponentProps) {
                   <span>{loaderData.post.author_name}</span>
                   <DotIcon className="size-5" />
                   <span>
-                    {DateTime.fromISO(loaderData.post.created_at).toRelative()}
+                    {DateTime.fromISO(loaderData.post.created_at, {
+                      zone: "utc",
+                    }).toRelative({ unit: "hours" })}
                   </span>
                   <DotIcon className="size-5" />
                   <span>{loaderData.post.replies} replies</span>
@@ -133,7 +135,9 @@ export default function PostPage({ loaderData }: Route.ComponentProps) {
           <div className="gap-2 text-sm flex flex-col">
             <span>
               🎂 Joined{" "}
-              {DateTime.fromISO(loaderData.post.author_created_at).toRelative()}{" "}
+              {DateTime.fromISO(loaderData.post.author_created_at, {
+                zone: "utc",
+              }).toRelative({ unit: "hours" })}{" "}
               ago
             </span>
             <span>🚀 Launched {loaderData.post.products} products</span>
