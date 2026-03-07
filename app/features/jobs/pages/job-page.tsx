@@ -6,8 +6,8 @@ import { getJobById } from "../queries";
 import { DateTime } from "luxon";
 import { makeSSRClient } from "~/supa-client";
 
-export const meta: Route.MetaFunction = () => {
-  return [{ title: "Job Details | wemake" }];
+export const meta: Route.MetaFunction = ({ loaderData }) => {
+  return [{ title: `${loaderData.job.position} | wemake` }];
 };
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
@@ -26,7 +26,9 @@ export default function JobPage({ loaderData }: Route.ComponentProps) {
             <div className="size-40 bg-white rounded-full  overflow-hidden relative left-10">
               <img src={loaderData.job.company_logo} className="object-cover" />
             </div>
-            <h1 className="text-4xl font-bold">{loaderData.job.position}</h1>
+            <h1 className="text-4xl font-bold mt-5">
+              {loaderData.job.position}
+            </h1>
             <h4 className="text-lg text-muted-foreground">
               {loaderData.job.company_name}
             </h4>

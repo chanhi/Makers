@@ -21,8 +21,12 @@ import { getPostById, getReplies } from "../queries";
 import { DateTime } from "luxon";
 import { makeSSRClient } from "~/supa-client";
 
-export const meta: Route.MetaFunction = ({ data }) => {
-  return [{ title: `${data.post.title} on ${data.post.topic_name} | wemake` }];
+export const meta: Route.MetaFunction = ({ loaderData }) => {
+  return [
+    {
+      title: `${loaderData.post.title} on ${loaderData.post.topic_name} | wemake`,
+    },
+  ];
 };
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
