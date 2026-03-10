@@ -97,6 +97,7 @@ export const getReplies = async (
       `,
     )
     .eq("post_id", postId)
+    .is("parent_id", null)
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data;

@@ -9,7 +9,7 @@ import {
 } from "~/common/components/ui/avatar";
 import { Button } from "~/common/components/ui/button";
 import { Textarea } from "~/common/components/ui/textarea";
-import { action } from "../pages/post-page";
+import { type action } from "../pages/post-page";
 
 interface ReplyProps {
   name: string;

@@ -155,9 +155,7 @@ export default function PostPage({
                     <Button>Reply</Button>
                   </div>
                 </Form>
-              ) : (
-                <p>you need to log in</p>
-              )}
+              ) : null}
               <div className="space-y-10">
                 <h4 className="font-semibold">
                   {loaderData.post.replies} Replies
@@ -166,7 +164,7 @@ export default function PostPage({
                   {loaderData.replies.map((reply) => (
                     <Reply
                       name={reply.user.name}
-                      username={reply.user.name}
+                      username={reply.user.username}
                       avatarUrl={reply.user.avatar}
                       content={reply.reply}
                       timestamp={reply.created_at}
@@ -188,11 +186,13 @@ export default function PostPage({
                 <AvatarImage src={loaderData.post.author_avatar} />
               ) : null}
             </Avatar>
-            <div className="flex flex-col">
+            <div className="flex flex-col items-start">
               <h4 className="text-lg font-medium">
                 {loaderData.post.author_name}
               </h4>
-              <Badge variant="secondary">{loaderData.post.author_role}</Badge>
+              <Badge variant="secondary" className="capitalize">
+                {loaderData.post.author_role}
+              </Badge>
             </div>
           </div>
           <div className="gap-2 text-sm flex flex-col">

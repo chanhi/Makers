@@ -82,7 +82,9 @@ export default [
     ]),
     route("/logout", "features/auth/pages/logout-page.tsx"),
   ]),
-  //Community Routes
+  // Handle tooling / browser requests that hit "/.well-known/..." in dev mode without crashing the router
+  route("/.well-known/*", "common/pages/well-known-page.tsx"),
+  // Community Routes
   ...prefix("/community", [
     index("features/community/pages/community-page.tsx"),
     route("/:postId", "features/community/pages/post-page.tsx"),
