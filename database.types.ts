@@ -879,8 +879,8 @@ export type Database = {
       get_dashboard_stats: {
         Args: { user_id: string }
         Returns: {
+          desktop: number
           month: string
-          views: number
         }[]
       }
       track_event: {
