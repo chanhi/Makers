@@ -883,6 +883,14 @@ export type Database = {
           month: string
         }[]
       }
+      get_product_stats: {
+        Args: { product_id: string }
+        Returns: {
+          month: string
+          views: number
+          visitors: number
+        }[]
+      }
       track_event: {
         Args: {
           event_data: Json
