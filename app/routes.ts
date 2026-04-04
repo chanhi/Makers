@@ -5,7 +5,6 @@ import {
   prefix,
   route,
 } from "@react-router/dev/routes";
-import { ro } from "date-fns/locale";
 
 export default [
   index("common/pages/home-page.tsx"),
@@ -118,6 +117,10 @@ export default [
     route("/profile", "features/users/pages/my-profile-page.tsx"),
     route("/settings", "features/users/pages/settings-page.tsx"),
     route("/notifications", "features/users/pages/notifications-page.tsx"),
+    route(
+      "/notifications/:notificationId/see",
+      "features/users/pages/see-notification-page.tsx",
+    ),
   ]),
   ...prefix("/users/:username", [
     layout("features/users/layouts/profile-layout.tsx", [
