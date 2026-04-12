@@ -39,7 +39,8 @@ export const getTeamById = async (
       team_leader:profiles!inner(
         name,
         avatar,
-        role
+        role, 
+        username
       )
       `,
     )
