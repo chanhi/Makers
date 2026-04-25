@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "~/supa-client";
+import { client, type Database } from "~/supa-client";
 import { productListSelect } from "../products/queries";
 import { redirect } from "react-router";
 
@@ -152,4 +152,19 @@ export const countNotifications = async (
     throw error;
   }
   return count ?? 0;
+};
+
+export const getMessages = async (
+  client: SupabaseClient<Database>,
+  { userId }: { userId: string },
+) => {
+  const { data, error } = await client
+    .from("messages_view")
+    .select("*")
+    .eq("profile_id", userId)
+    .neq("other_profile_id", userId);
+  if (error) {
+    throw error;
+  }
+  return data;
 };
