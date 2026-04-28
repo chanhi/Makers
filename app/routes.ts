@@ -111,7 +111,7 @@ export default [
     layout("features/users/layouts/messages-layout.tsx", [
       ...prefix("/messages", [
         index("features/users/pages/messages-page.tsx"),
-        route("/:messageId", "features/users/pages/message-page.tsx"),
+        route("/:messageRoomId", "features/users/pages/message-page.tsx"),
       ]),
     ]),
     route("/profile", "features/users/pages/my-profile-page.tsx"),
