@@ -20,7 +20,9 @@ import {
   getLoggedInUser,
   getMessagesByMessagesRoomId,
   getRoomsParticipant,
+  sendMessageToRoom,
 } from "../queries";
+import { useEffect, useRef } from "react";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Message | wemake" }];
@@ -43,8 +45,33 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   };
 };
 
-export default function MessagePage({ loaderData }: Route.ComponentProps) {
+export const action = async ({ request, params }: Route.ActionArgs) => {
+  const { client } = await makeSSRClient(request);
+  const userId = await getLoggedInUser(client);
+  const formData = await request.formData();
+  const message = formData.get("message");
+  await sendMessageToRoom(client, {
+    messageRoomId: params.messageRoomId,
+    message: message as string,
+    userId,
+  });
+  return {
+    ok: true,
+  };
+};
+
+export default function MessagePage({
+  loaderData,
+  actionData,
+}: Route.ComponentProps) {
   const { userId } = useOutletContext<{ userId: string }>();
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    if (actionData?.ok) {
+      formRef.current?.reset();
+    }
+  }, [actionData]);
+
   return (
     <div className="h-full flex flex-col justify-between">
       <Card>
@@ -76,10 +103,16 @@ export default function MessagePage({ loaderData }: Route.ComponentProps) {
       </div>
       <Card>
         <CardHeader>
-          <Form className="relative flex justify-end items-center">
+          <Form
+            className="relative flex justify-end items-center"
+            ref={formRef}
+            method="post"
+          >
             <Textarea
               placeholder="Write a message..."
               rows={2}
+              required
+              name="message"
               className="resize-none"
             />
             <Button type="submit" size="icon" className="absolute right-2">

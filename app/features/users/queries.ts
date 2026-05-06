@@ -236,3 +236,32 @@ export const getRoomsParticipant = async (
   }
   return data;
 };
+
+export const sendMessageToRoom = async (
+  client: SupabaseClient<Database>,
+  {
+    messageRoomId,
+    message,
+    userId,
+  }: { messageRoomId: string; message: string; userId: string },
+) => {
+  const { count, error: countError } = await client
+    .from("message_room_members")
+    .select("*", { count: "exact", head: true })
+    .eq("message_room_id", Number(messageRoomId))
+    .eq("profile_id", userId);
+  if (countError) {
+    throw countError;
+  }
+  if (count === 0) {
+    throw new Error("Message room not found");
+  }
+  const { error } = await client.from("messages").insert({
+    content: message,
+    message_room_id: Number(messageRoomId),
+    sender_id: userId,
+  });
+  if (error) {
+    throw error;
+  }
+};
