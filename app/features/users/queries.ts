@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { client, type Database } from "~/supa-client";
+import { type Database } from "~/supa-client";
 import { productListSelect } from "../products/queries";
 import { redirect } from "react-router";
 
@@ -186,15 +186,7 @@ export const getMessagesByMessagesRoomId = async (
   }
   const { data, error } = await client
     .from("messages")
-    .select(
-      `*,
-      sender:profiles!sender_id!inner(
-        name,
-        profile_id,
-        avatar
-      )
-      `,
-    )
+    .select(`*`)
     .eq("message_room_id", Number(messageRoomId))
     .order("created_at", { ascending: true });
   if (error) {
@@ -224,6 +216,7 @@ export const getRoomsParticipant = async (
       `
       profile:profiles!profile_id!inner(
         name,
+        profile_id,
         avatar
       )
       `,
